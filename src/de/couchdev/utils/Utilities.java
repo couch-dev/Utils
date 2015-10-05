@@ -11,8 +11,17 @@ import java.util.Map.Entry;
 
 public class Utilities {
 
+	/**
+	 * Euler's number
+	 */
 	public static final double e = 2.71828182846;
 
+	/**
+	 * Sums all values of the given Collection if it consists of numeric values. The sum of every empty
+	 * Collection is {@code 0};
+	 * @param collection The Collection which values will be summed up.
+	 * @return The sum as a {@code double} value.
+	 */
 	public static <T> double sum(Collection<T> collection) {
 		double sum = 0.0;
 		if(collection.isEmpty())
@@ -30,6 +39,18 @@ public class Utilities {
 		return sum;
 	}
 
+	/**
+	 * Get the maximum value of a Collection of numeric values and its position in the given Collection.<br><br>
+	 * Examples:<br>
+	 * Assume following collections:<br>
+	 * {@code numbers = [5, 1, 42]}<br>
+	 * {@code max(numbers)[0]} gives {@code 42}, {@code max(numbers)[1]} gives {@code 2}<br>
+	 * {@code numbers = []}<br>
+	 * {@code max(numbers)[0]} gives {@code NaN}, {@code max(numbers)[1]} gives {@code -1}<br>
+	 * @param collection The Collection to get the maximum of.
+	 * @return An Array of size 2 where the first position holds the found maximum value and the second position
+	 * holds the position of this maximum value inside of the Collection.
+	 */
 	public static <T> double[] max(Collection<T> collection) {
 		if(collection.isEmpty()){
 			return new double[]{Double.NaN, -1};
@@ -62,6 +83,12 @@ public class Utilities {
 		return new double[]{max, index};
 	}
 
+	/**
+	 * Sorts the given HashMap by its values.
+	 * @param map The HashMap to sort.
+	 * @param ascending Whether to sort the values in ascending or descending order.
+	 * @return A sorted LinkedHashMap.
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <KeyType, ValType> LinkedHashMap<KeyType, ValType> sortHashMapByValues(
 			HashMap<KeyType, ValType> map, boolean ascending) {

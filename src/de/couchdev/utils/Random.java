@@ -9,6 +9,9 @@ public class Random
 	private static int _range;
 	private static int _offset;
 
+	/**
+	 * Initiate a new random number provider with the default minimum 1 an maximum 100.
+	 */
 	public Random()
 	{
 		if(_counter==null)
@@ -22,8 +25,14 @@ public class Random
 		}
 	}
 	
+	/**
+	 * Initiate a new random number provider with custom minimum and maximum.
+	 * @param min The minimum value that can come out.
+	 * @param max The maximum number that can come out.
+	 */
 	public Random(int min, int max)
 	{
+		assert(max > min);
 		_count = 0;
 		_currentMin = min;
 		_currentMax = max;
@@ -32,24 +41,32 @@ public class Random
 		_offset=_range/20*7+3;
 	}
 	
+	/**
+	 * Get the currently set minimum value.
+	 * @return The current minimum.
+	 */
 	public int getMin()
 	{
 		return _currentMin;
 	}
 	
+	/**
+	 * Get the currently set maximum value.
+	 * @return The current maximum.
+	 */
 	public int getMax()
 	{
 		return _currentMax;
 	}
 	
 	/**
-	 * Calculates <b>amount</b> random integer numbers between <b>min</b> and <b>max</b>
+	 * Calculates <b>amount</b> random integer numbers between <b>min</b> and <b>max</b>.
 	 * <br>(including <b>min</b> and <b>max</b>)
 	 * 
-	 * @param min The minimum number to come out
-	 * @param max The maximum number to come out
-	 * @param amount The length of the returned array
-	 * @return An array of random integer numbers
+	 * @param min The minimum number to come out.
+	 * @param max The maximum number to come out.
+	 * @param amount The length of the returned array.
+	 * @return An array of random integer numbers.
 	 */
 	public int[] getBetween(int min, int max, int amount)
 	{
@@ -71,8 +88,8 @@ public class Random
 	}
 	
 	/**
-	 * Generates and returns a random Number between the currently set minimum and maximum number.
-	 * @return The next random number
+	 * Generates and returns a random number between the current minimum and maximum value.
+	 * @return A new random number.
 	 */
 	public int next()
 	{
@@ -86,9 +103,10 @@ public class Random
 	
 	private int getBetween(int min, int max)
 	{
+		int range = max - min + 1;
 		if(min<max && min>=0)
 		{
-			return getNumber(_range)+min;
+			return getNumber(range)+min;
 		}
 		return -1;
 	}
@@ -104,6 +122,7 @@ public class Random
 			}
 			int n = t%max;
 			int c=0;
+			int dead=0;
 			while(_counter[n]>_count)
 			{
 				n = (n+_offset)%max;
@@ -112,6 +131,9 @@ public class Random
 				{
 					++_count;
 				}
+				dead++;
+				if(dead == 10000)
+					break;
 			}
 			++_counter[n];
 			return n;
