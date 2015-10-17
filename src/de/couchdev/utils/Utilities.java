@@ -15,7 +15,7 @@ public class Utilities {
 	 * Euler's number
 	 */
 	public static final double e = 2.71828182846;
-
+	
 	/**
 	 * Sums all values of the given Collection if it consists of numeric values. The sum of every empty
 	 * Collection is {@code 0};
@@ -96,12 +96,8 @@ public class Utilities {
 		if(map.isEmpty())
 			return result;
 		ArrayList<ValType> values = new ArrayList<ValType>();
-		LinkedHashMap<ValType, KeyType> reverseMap = new LinkedHashMap<ValType, KeyType>();
-		Iterator<Entry<KeyType, ValType>> it = map.entrySet().iterator();
-		while(it.hasNext()){
-			Entry<KeyType, ValType> entry = it.next();
-			reverseMap.put(entry.getValue(), entry.getKey());
-			values.add(entry.getValue());
+		for(ValType v: map.values()){
+			values.add(v);
 		}
 		ValType elem = values.get(0);
 		if(elem instanceof Comparable)
@@ -112,9 +108,16 @@ public class Utilities {
 			Collections.reverse(values);
 		}
 		for(ValType val: values){
-			result.put(reverseMap.get(val), val);
+			Iterator<Entry<KeyType, ValType>> it = map.entrySet().iterator();
+			while(it.hasNext()){
+				Entry<KeyType, ValType> entry = it.next();
+				if(entry.getValue() == val){
+					result.put(entry.getKey(), entry.getValue());
+					map.remove(entry.getKey());
+					break;
+				}
+			}
 		}
 		return result;
 	}
-
 }
